@@ -37,7 +37,7 @@ def register_view(request):
             }
 
             token = jwt.encode(payload, 'secret', algorithm='HS256')
-            return Response({'status': 'success', 'code': '200', 'message': 'token generated successfully, OTP sent to your given number', 'token': token})
+            return Response({'status': 'success', 'statuscode': '200', 'message': 'token generated successfully, OTP sent to your given number', 'token': token})
 
         return Response({'status': 'failed', 'statuscode':'400', 'message': 'failed to generate token!'})
 
@@ -76,7 +76,7 @@ def validate_registration_otp(request):
                     reg.save()
                     return Response({'status':'Success', 'status_code': '200', 'message': 'Registered Successfully'})
                 else:
-                    return Response({'status': 'error', 'code':'400', 'Message':'OTP matching failed'} )
+                    return Response({'status': 'error', 'statuscode':'400', 'Message':'OTP matching failed'} )
             except Exception as e:
                 return Response(str(e))
 
@@ -89,8 +89,10 @@ class SignupDelete(APIView):
     def get_object(self, id):
         try:
             return Signup.objects.get(id=id)
-        except Signup.DoesNotExist:
-            raise Http404
+        except Exception as e:
+            return Response({'status': 'error', 'statuscode':'404', 'Message':'detile not found'})
+            # Signup.DoesNotExist:
+            # raise Http404
 
     def get(self, request, id):
         try:
@@ -99,9 +101,9 @@ class SignupDelete(APIView):
                 serializer = SignupSerializer(user)
                 return Response(serializer.data)
             else:
-                return Response({'status': 'error', 'code':'404', 'Message':'Id not found'})
+                return Response({'status': 'error', 'statuscode':'404', 'Message':'Id not found'})
         except Exception as e:
-            return Response(str(e))
+            return Response({'status': 'error', 'statuscode':'404', 'Message':'Id not found'})
 
     def put(self, request, id, format=None):
         update = self.get_object(id)
@@ -158,9 +160,7 @@ def logout(request):
         if user.is_active == True:
             user.is_active = False
             user.save()
-            return Response("seccess")
-        else:
-            return Response("Error")
+            return Response({'status':'success', 'statuscode': '200', 'message':'Loged out successfully'})
     except Exception as e:
         return Response(str(e))
 
