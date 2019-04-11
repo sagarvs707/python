@@ -18,10 +18,7 @@ def register_view(request):
     try:
         if request.method == 'POST':
             email = request.data.get('email')
-            first_name = request.data.get('first_name')
-            last_name = request.data.get('last_name')
-            date_of_birth = request.data.get('dob')
-            address = request.data.get('address')
+            full_name = request.data.get('full_name')
             phone_number = request.data.get('phone_number')
             password = request.data.get('password')
 
@@ -33,17 +30,13 @@ def register_view(request):
 
             payload = {
                 'email': email,
-                'first_name': first_name,
-                'last_name': last_name,
+                'full_name': full_name,
                 'phone_number': phone_number,
                 'password': password,
-                'date_of_birth': date_of_birth,
-                'address': address,
                 'sessionid': str(session_id)
             }
 
             token = jwt.encode(payload, 'secret', algorithm='HS256')
-            print(token)
             return Response({'status': 'success', 'code': '200', 'message': 'token generated successfully, OTP sent to your given number', 'token': token})
 
         return Response({'status': 'failed', 'statuscode':'400', 'message': 'failed to generate token!'})
@@ -74,12 +67,10 @@ def validate_registration_otp(request):
                     data = token1.copy()
                     payload = {
                         'email': data.get("email"),
-                        'first_name': data.get("first_name"),
-                        'last_name': data.get("last_name"),
+                        'full_name': data.get("full_name"),
                         'phone_number': data.get("phone_number"),
                         'password': data.get("password"),
                         'date_of_birth': data.get("date_of_birth"),
-                        'address': data.get("address")
                     }
                     reg = Signup(**payload)
                     reg.save()
@@ -102,9 +93,12 @@ class SignupDelete(APIView):
             raise Http404
 
     def get(self, request, id):
-        user = self.get_object(id)
-        serializer = SignupSerializer(user)
-        return Response(serializer.data)
+        try:
+            user = self.get_object(id)
+            serializer = SignupSerializer(user)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response(str(e))
 
     def put(self, request, id, format=None):
         update = self.get_object(id)
