@@ -94,9 +94,12 @@ class SignupDelete(APIView):
 
     def get(self, request, id):
         try:
-            user = self.get_object(id)
-            serializer = SignupSerializer(user)
-            return Response(serializer.data)
+            if id is not None:
+                user = self.get_object(id)
+                serializer = SignupSerializer(user)
+                return Response(serializer.data)
+            else:
+                return Response({'status': 'error', 'code':'404', 'Message':'Id not found'})
         except Exception as e:
             return Response(str(e))
 
