@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from rest_framework.utils import json
 
 class Signup(models.Model):
 
@@ -21,3 +22,6 @@ class Signup(models.Model):
 
     def __str__(self):
         return self.email+ "|" +str(self.id)
+
+    def get_data(self):
+        return json.loads(self.data)

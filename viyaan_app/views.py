@@ -70,7 +70,6 @@ def validate_registration_otp(request):
                         'full_name': data.get("full_name"),
                         'phone_number': data.get("phone_number"),
                         'password': data.get("password"),
-                        'date_of_birth': data.get("date_of_birth"),
                     }
                     reg = Signup(**payload)
                     reg.save()
