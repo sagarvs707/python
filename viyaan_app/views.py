@@ -9,7 +9,7 @@ import json
 import jwt
 
 from django.core.files.storage import FileSystemStorage
-from .models import Document
+from .models import Document, Signup
 from .forms import DocumentForm
 
 

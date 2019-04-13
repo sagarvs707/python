@@ -127,5 +127,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CSRF_COOKIE_SECURE = True
 SESSION_SAVE_EVERY_REQUEST=True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'viyaan_app/media')
 MEDIA_URL = '/media/'
