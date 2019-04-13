@@ -25,3 +25,7 @@ class Signup(models.Model):
 
     def get_data(self):
         return json.loads(self.data)
+
+class Document(models.Model):
+        user = models.OneToOneField(Signup, on_delete=models.CASCADE)
+        document = models.FileField(upload_to='images')

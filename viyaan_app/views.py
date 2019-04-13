@@ -1,18 +1,20 @@
-from django.http import Http404
-from django.shortcuts import redirect, render_to_response, render
-from requests import auth
+from django.shortcuts import redirect
 from rest_framework.views import APIView
 from .serializers import SignupSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from .models import Signup
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 import jwt
 
+from django.core.files.storage import FileSystemStorage
+from .models import Document
+from .forms import DocumentForm
 
 
+
+@csrf_exempt
 @api_view(['POST'])
 def register_view(request):
     try:
@@ -45,6 +47,8 @@ def register_view(request):
         return Response({'status': e, 'statuscode':'400', 'message': 'EmailId is already exists!'})
 
 
+
+@csrf_exempt
 @api_view(['GET','POST'])
 def validate_registration_otp(request):
     try:
@@ -183,6 +187,8 @@ def change_password(request):
     return Response("something went wrong")
 
 
+
+@csrf_exempt
 @api_view(['POST'])
 def forgot_password(request):
     if request.method == 'POST':
@@ -256,3 +262,23 @@ def validate_forgot_password(request):
 
     except Exception as e:
         return Response({'status':'error', 'code':'404', 'Message':str(e)})
+
+
+def image_upload(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return Response("success", {'uploaded_pictur': uploaded_file_url})
+    return Response("fail")
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return Response("return home page")
+    else:
+        form = DocumentForm()
+    return Response("hello",{'form': form})

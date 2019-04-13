@@ -1,7 +1,10 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from django.conf.urls import url
 
-from .views import login_view, change_password, logout, register_view, SignupDelete, validate_registration_otp, forgot_password, validate_forgot_password
+
+from .views import login_view, change_password, logout, register_view, SignupDelete, validate_registration_otp, forgot_password, validate_forgot_password, image_upload, model_form_upload
 
 urlpatterns = [
     path('register/', register_view, name='register'),
@@ -19,5 +22,10 @@ urlpatterns = [
     path('forgot_password/', forgot_password),
     path('validate_forgot_password/', validate_forgot_password),
 
+    url(r'^uploads/image/$', image_upload, name='picture'),
+    url(r'^uploads/form/image/$', model_form_upload, name='picture'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

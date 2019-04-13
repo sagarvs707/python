@@ -25,7 +25,7 @@ SECRET_KEY = 'srkvrxevm_+tzi6#&fum%q$pf!@pgzxj%e6%z)h(nf&y+l0si0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['159.89.164.254']
+ALLOWED_HOSTS = ['159.89.164.254', 'localhost']
 
 
 # Application definition
@@ -123,7 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CSRF_COOKIE_SECURE = True
-
 SESSION_SAVE_EVERY_REQUEST=True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
