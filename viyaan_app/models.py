@@ -29,3 +29,8 @@ class Signup(models.Model):
 class Document(models.Model):
         user = models.OneToOneField(Signup, on_delete=models.CASCADE)
         document = models.FileField(upload_to='images')
+
+
+
+class Mentors(models.Model):
+    name=models.CharField(Max_lenth=412)
