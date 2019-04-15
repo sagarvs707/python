@@ -123,6 +123,7 @@ class SignupDelete(APIView):
     def delete(self, request, id, format=None):
         try:
             deleteuser = self.get_object(id)
+            
             deleteuser.delete()
             return Response({'status': 'success', 'statuscode': '204', 'messages': 'Deleted successfully'})
         except Exception as e:
