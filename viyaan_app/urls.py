@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^uploads/image/$', image_upload, name='picture'),
     url(r'^uploads/form/image/$', model_form_upload, name='picture'),
 
+
 ]
 
 if settings.DEBUG:
