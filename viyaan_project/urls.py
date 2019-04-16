@@ -6,6 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('viyaan_app.urls')),
     path('course/', include('courses.urls')),
-    path('api/', include('chat.urls')),
 
 ]

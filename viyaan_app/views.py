@@ -8,11 +8,8 @@ import requests
 import json
 import jwt
 
+from .models import Signup
 from django.core.files.storage import FileSystemStorage
-from .models import Document, Signup
-from .forms import DocumentForm
-
-
 
 @csrf_exempt
 @api_view(['POST'])
@@ -23,6 +20,7 @@ def register_view(request):
             full_name = request.data.get('full_name')
             phone_number = request.data.get('phone_number')
             password = request.data.get('password')
+            profile_picture = request.data.get('profile_picture')
 
             session_otp = requests.post('https://2factor.in/API/V1/26bd58b6-5841-11e9-a6e1-0200cd936042/SMS/+91'+phone_number+'/AUTOGEN', params=request.POST)
             session = session_otp.content
@@ -35,7 +33,8 @@ def register_view(request):
                 'full_name': full_name,
                 'phone_number': phone_number,
                 'password': password,
-                'sessionid': str(session_id)
+                'sessionid': str(session_id),
+                'profile_picture':profile_picture
             }
 
             token = jwt.encode(payload, 'secret', algorithm='HS256')
@@ -74,6 +73,7 @@ def validate_registration_otp(request):
                         'full_name': data.get("full_name"),
                         'phone_number': data.get("phone_number"),
                         'password': data.get("password"),
+                        'profile_picture':data.get("profile_picture")
                     }
                     reg = Signup(**payload)
                     reg.save()
@@ -123,10 +123,11 @@ class SignupDelete(APIView):
     def delete(self, request, id, format=None):
         try:
             deleteuser = self.get_object(id)
+
             deleteuser.delete()
             return Response({'status': 'success', 'statuscode': '204', 'messages': 'Deleted successfully'})
         except Exception as e:
-            return Response({'status':'error', 'statuscode':'400', 'message':'User doesnot exist'})
+            return Response({'status':str(e), 'statuscode':'400', 'message':'User doesnot exist'})
 
 
 @api_view(['POST'])
@@ -265,20 +266,20 @@ def validate_forgot_password(request):
 
 
 def image_upload(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
+    if request.method == 'POST':
+        myfile = request.FILES['document']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         return Response("success", {'uploaded_pictur': uploaded_file_url})
     return Response("fail")
-
-def model_form_upload(request):
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return Response("return home page")
-    else:
-        form = DocumentForm()
-    return Response("hello",{'form': form})
+#
+# def model_form_upload(request):
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return Response("return home page")
+#     else:
+#         form = DocumentForm()
+#     return Response("hello",{'form': form})

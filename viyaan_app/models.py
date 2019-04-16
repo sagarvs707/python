@@ -10,6 +10,8 @@ class Signup(models.Model):
                                  message="Phone number entered in the format:'+919999999999'. Up to 14 digits number")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)  # validators should be a list
     password = models.CharField(max_length=20, null=False, blank=False)
+    profile_picture = models.ImageField(upload_to='images', null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -23,9 +25,6 @@ class Signup(models.Model):
     def __str__(self):
         return self.email+ "|" +str(self.id)
 
-    def get_data(self):
-        return json.loads(self.data)
-
-class Document(models.Model):
-        user = models.OneToOneField(Signup, on_delete=models.CASCADE)
-        document = models.FileField(upload_to='images')
+    def delete(self, *args, **kwargs):
+        self.profile_picture.delete()
+        super().delete(*args, **kwargs)

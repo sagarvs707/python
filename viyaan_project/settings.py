@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'viyaan_app',
     'rest_framework',
-    'chat',
     'courses',
 ]
 
