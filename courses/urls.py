@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import  CourseDetail, course_post, mentors_details, youtube_list, Mentors_Update,youtubedetail
+from .views import CourseDetail, course_post, mentors_details, youtube_list, Mentors_Update, youtubedetail, view_all_courses
 from django.urls import path
 
 urlpatterns = [
@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^get/(?P<id>\d+)/$', CourseDetail.as_view()),
     url(r'^delete/(?P<id>\d+)/$', CourseDetail.as_view()),
     url(r'^put/(?P<id>\d+)/$', CourseDetail.as_view()),
-
+    path('view_all_course/', view_all_courses),
 
     path('mentors/', mentors_details),
     url(r'^get_mentors/(?P<id>\d+)/$', Mentors_Update.as_view()),

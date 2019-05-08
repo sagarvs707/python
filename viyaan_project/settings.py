@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'viyaan_app',
     'rest_framework',
     'courses',
+
+    # 'app',
+    # 'corsheaders',
 ]
 
 
@@ -51,14 +55,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'viyaan_project.urls'
 
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http//:localhost:8000',
+)
+
+CSRF_COOKIE_SECURE = True
+SESSION_SAVE_EVERY_REQUEST=True
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, '')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,8 +96,11 @@ WSGI_APPLICATION = 'viyaan_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-
+        'NAME': 'viyaan_db',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'PORT': '3306'
     }
 }
 
@@ -112,6 +131,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Kolkata'
 
+
 USE_I18N = True
 
 USE_L10N = True
@@ -123,9 +143,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-CSRF_COOKIE_SECURE = True
-SESSION_SAVE_EVERY_REQUEST=True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'viyaan_app/media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/Profil_pictur/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Profil_pictur')

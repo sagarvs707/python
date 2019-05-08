@@ -16,6 +16,9 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     download_link =models.FileField(null=True,blank=True)
 
+    def __str__(self):
+        return self.course_name + "____" + str(self.id)
+
      # def get_data(self):
      #     return json.loads(self.data)
 
