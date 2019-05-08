@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls import url
 
 from .views import login_view, change_password, logout, register_view, SignupDelete, validate_registration_otp, \
-    forgot_password, validate_forgot_password, push_notification
+    forgot_password, validate_forgot_password
 
 urlpatterns = [
     path('register/', register_view, name='register'),
@@ -19,6 +19,5 @@ urlpatterns = [
     path('forgot_password/', forgot_password),
     path('validate_forgot_password/', validate_forgot_password),
 
-    path('send_notification/', push_notification, name='send_notification'),
 
 ]
