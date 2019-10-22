@@ -19,7 +19,7 @@ mccabe==0.6.1
 mypy==0.701
 mypy-extensions==0.4.1
 mysqlclient==1.4.2.post1
-Pillow==5.4.1
+Pillow==6.2.0
 psycopg2-binary==2.8.1
 PyJWT==1.7.1
 pylint==2.3.1
