@@ -8,7 +8,7 @@ Django==2.1.7
 django-cors-headers==2.5.3
 django-registration==3.0
 django-stubs==0.12.1
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 djangorestframework-stubs==0.2.0
 favicon==0.5.1
 gunicorn==19.9.0
